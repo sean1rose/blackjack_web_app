@@ -1,0 +1,104 @@
+<div id="game">
+  
+  <%if @loser %>            
+    <div class="alert alert-error"><%=@loser%></div>
+  <% end %>
+  <%if @winner %>
+    <div class="alert alert-success"><%=@winner%></div>
+  <% end %>
+  <%if @push %>
+    <div class="alert"><%=@push%></div>
+  <% end %>  
+
+  <h1>Blackjack Web Application</h1>
+
+  <% if @intro %>
+  <p>Welcome <%= session[:player_name] %></p>
+  <% end %>
+
+  <%if @game_over %>
+    <p>
+      <strong>Play Again?</strong>
+      <a href="/bet" class="btn btn-success">Yes</a>
+      <a href="/game_over" class= "btn btn-danger">No</a>
+    </p>
+  <% end %>
+
+  <%if @game_over_for_real %>
+    <p>
+      <strong>Play Again?</strong>
+      <a href="/player_broke" class="btn btn-success">Yes</a>
+      <a href="/game_over" class= "btn btn-danger">No</a>
+    </p>
+  <% end %>
+
+  <div class ="well">
+      <h4>Dealer's Cards:</h4>
+        <% session[:dealer_cards].each_with_index do |card, i| %>
+        <% if session[:turn] != "dealer" && i == 0 && session[:dealer_base] != 21 %>
+          <img src="/images/cards/cover.jpg">
+          <% else %>
+            <%= card_image(card) %>
+            <%end %>
+      <% end %>
+      <br/>
+      <br/>
+      <% if @player_turn == false %>
+       <h4> Dealer has <%= calc_total(session[:dealer_cards]) %> </h4>
+      <% end %>
+
+      <br/>
+
+      <% if @dealer_button %>
+        <h5> Dealer has <%= calc_total(session[:dealer_cards]) %> and will hit. </h5>
+        <form id="dealer" action='/game/dealer/hit' method="post">
+          <input type='submit' value="Click to see Dealer's next card &rarr;" class='btn btn-primary'/>
+        </form>
+      <% end %>
+  </div>
+
+  <br/>
+
+  <div class="well" id="player_cards">
+  <h4>Player's Cards:</h4>
+    <% session[:player_cards].each do |card| %>
+      <%= card_image(card) %>
+    <% end %>
+  </div>
+
+  <br/>
+
+  <p>
+
+  <% if @player_turn %>
+    <h4>What would <%= session[:player_name] %> like to do?
+    <%= session[:player_name] %> has <%= calc_total(session[:player_cards]) %></h4> <%= session[:player_name] %> has $<%= session[:player_pot] - session[:bet_amount] %> TOTAL. Bet amount this round is: $<%= session[:bet_amount] %> <br/>
+  <% elsif @player_turn == false %>
+    <h4> <%= session[:player_name] %> has <%= calc_total(session[:player_cards]) %> </h4>
+  <% end %>
+
+  <br/>
+
+
+  <!--In order to make buttons disappear after bust/stay, need to wrap them in a conditional -->
+  <% if @show_hit_or_stay_buttons %>
+    <form id="hit" action='/game/player/hit' method="post">
+      <input type='submit' value="Hit" class='btn btn-success'/>
+      </form>
+
+    <form id="stay" action='/game/player/stay' method="post">
+      <input type='submit' value="Stay" class='btn btn-warning' />
+      </form>
+  <% end %>
+
+  <% if @show_double_down %>
+    <form id="double" action='game/player/double' method="post">
+      <input type='submit' value="Double Down" class='btn btn-info' />
+      </form>
+  <% end %>
+
+
+  </p>
+
+</div>
+
