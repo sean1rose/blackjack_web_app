@@ -10,8 +10,6 @@ $(document).ready(function(){       // upon page load...
     return false;
   });
 
-});
-
 function playerHit() {
   $(document).on("click", "#hit input", function(){ 
     alert("Player Hit AJAX");                                                       
@@ -62,3 +60,6 @@ function doubleDown() {
     return false;
   });
 }
+
+});
+
