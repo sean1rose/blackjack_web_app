@@ -110,7 +110,7 @@ end
 
 get '/bet' do
   #added:
-  session[:bet_amount] = nil
+  session[:bet_amount] = 0
 
   erb :bet
 

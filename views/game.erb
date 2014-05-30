@@ -72,7 +72,7 @@
 
   <% if @player_turn %>
     <h4>What would <%= session[:player_name] %> like to do?
-    <%= session[:player_name] %> has <%= calc_total(session[:player_cards]) %></h4> <%= session[:player_name] %> has $<%= session[:player_pot] - session[:bet_amount] %> TOTAL. Bet amount this round is: $<%= session[:bet_amount] %> <br/>
+    <%= session[:player_name] %> has <%= calc_total(session[:player_cards]) %></h4> <%= session[:player_name] %> has $<%= session[:player_pot] #- session[:bet_amount] %> TOTAL. Bet amount this round is: $<%= session[:bet_amount] %> <br/>
   <% elsif @player_turn == false %>
     <h4> <%= session[:player_name] %> has <%= calc_total(session[:player_cards]) %> </h4>
   <% end %>
