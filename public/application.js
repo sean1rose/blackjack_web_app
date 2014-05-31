@@ -8,8 +8,7 @@ $(document).ready(function(){       // upon page load...
 
 
 function playerHit() {
-  $(document).on("click", "#hit input", function(){ 
-    alert("Player Hit AJAX");                                                       
+  $(document).on("click", "#hit input", function(){                                                      
     $.ajax({
       type: "POST",
       url: "/game/player/hit"                         // no additional 'data' {} parameter to submit
@@ -22,7 +21,6 @@ function playerHit() {
 
 function playerStay() {
   $(document).on("click", "#stay input", function(){
-    alert("Player Stay AJAX")
     $.ajax({
       type: "POST",
       url: "/game/player/stay"
@@ -35,7 +33,6 @@ function playerStay() {
 
 function dealerHit() {
   $(document).on("click", "#dealer input", function(){
-    alert("dealer hits");
     $.ajax({
       type: "POST",
       url: "/game/dealer/hit"
