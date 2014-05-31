@@ -47,7 +47,7 @@ function dealerHit() {
 }
 
 function doubleDown() {
-  $(document).on("click", "#double input" function(){
+  $(document).on("click", "#double input", function(){
     $.ajax({
       type: "POST",
       url: "/game/player/double"
