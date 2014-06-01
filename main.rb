@@ -151,22 +151,31 @@ get '/game' do
 
   session[:dealer_first] = session[:deck].pop
   session[:dealer_cards] << session[:dealer_first]
+
   session[:player_first] = session[:deck].pop
   session[:player_cards] << session[:player_first]
+  # [['hearts', '2']]
+
   session[:dealer_second] = session[:deck].pop
   session[:dealer_cards] << session[:dealer_second]
+
   session[:player_second] = session[:deck].pop
   session[:player_cards] << session[:player_second]
+  # [['hearts', '2'], ['diamonds', 'ace']]
+
+
 
   session[:dealer_base] = calc_total(session[:dealer_cards])
 
-  #session[:dealer_cards] << session[:deck].pop
-  #first_card = session[:deck].pop
-  #session[:player_cards] << first_card
-  #session[:dealer_cards] << session[:deck].pop
-  #second_card = session[:deck].pop
-  #session[:player_cards] << second_card
-  
+  base_hand = calc_total(session[:player_cards])
+  if base_hand == 9 || base_hand == 10 || base_hand == 11 || session[:player_first][1] == 'ace' || session[:player_second][1] == 'ace'
+    @show_double_down = true
+  end
+
+  if calc_total(session[:player_cards]) == calc_total(session[:dealer_cards]) &&  calc_total(session[:dealer_cards]) == BLACKJACK_AMOUNT
+    @show_double_down = false
+    push!("You hit BLACKJACK, but unfortunately so did the Dealer...")
+  end
 
   if calc_total(session[:player_cards]) == BLACKJACK_AMOUNT
     @show_double_down = false
@@ -177,11 +186,7 @@ get '/game' do
     @show_double_down = false
     loser!("Dealer hit BLACKJACK!")
   end
-  
-  base_hand = calc_total(session[:player_cards])
-  if base_hand == 9 || base_hand == 10 || base_hand == 11 || session[:player_first][1] == 'ace' || session[:player_second][1] == 'ace'
-    @show_double_down = true
-  end
+
 
   erb :game
 end
@@ -200,6 +205,7 @@ post '/game/player/double' do
 
   erb :game, layout: false
 end
+
 
 
 post '/game/player/hit' do
